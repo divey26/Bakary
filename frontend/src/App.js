@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import About from "./common/About"
+import Contact from "./common/Contact" 
+import HomePage from './common/HomePage';
 
 function App() {
+
+  const isAdminAuthenticated = () => {
+    return true;
+  };
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+        <Route
+           path="/" 
+           element={
+          isAdminAuthenticated() ? <HomePage /> : <Navigate to="/" />
+        }
+        />
+          <Route
+          path="/about"
+          element={
+            isAdminAuthenticated() ? <About /> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            isAdminAuthenticated() ? <Contact /> : <Navigate to="/" />
+          }
+        />
+         
+       </Routes>
+      </Router>
     </div>
   );
 }
