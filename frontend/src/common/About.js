@@ -10,7 +10,7 @@ const About = () => {
    <LayoutNew>
    <Layout>
 
-
+    This is About Us Page
 
 </Layout>
    </LayoutNew>

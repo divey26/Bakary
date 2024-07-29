@@ -35,6 +35,14 @@ function App() {
           }
         />
          
+         <Route
+          path="/feed"
+          element={
+            isAdminAuthenticated() ? <Contact /> : <Navigate to="/" />
+          }
+        />
+
+
        </Routes>
       </Router>
     </div>
