@@ -2,9 +2,9 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import About from "./common/About"
-import Contact from "./common/Contact" 
-import HomePage from './common/HomePage';
+import About from "../src/common/other/About"
+import Contact from "./common/other/Contact" 
+import HomePage from './common/other/HomePage';
 
 function App() {
 

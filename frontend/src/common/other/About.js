@@ -1,19 +1,22 @@
 import React from 'react';
 import { Layout,Space,Typography} from "antd";
-import LayoutNew from '../Layout';
+import LayoutNew from '../../Layout';
 
 import { StockOutlined } from '@ant-design/icons';
-
 const { Title } = Typography;
 
-const HomePage = () => {
+
+const About = () => {
   return (
+    <div className="about">
+
+
    <LayoutNew>
    <Layout>
-<div>
-<Space
+
+   <Space
             style={{
-              background: "#B67352",
+              background: "#65451F",
               color: "black",
               padding: "12px",
               borderRadius: "8px",
@@ -31,19 +34,14 @@ const HomePage = () => {
               </Title>
             </Space>
           </Space>
-    <h1>Sorry  :(</h1> 
-    <br/>
-    <h1> But This is our Home Page !</h1>
-    blH BASBDASKJFBBSSDKF
 
-</div>
-
+    This is About Us Page
 
 </Layout>
    </LayoutNew>
 
-      
+      </div>
   );
 }
 
-export default HomePage;
+export default About;

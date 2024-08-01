@@ -23,7 +23,6 @@ const adminUserItems = [
     key: "dashboard",
     icon: <HomeOutlined />,
     label: "Home",
-    
   },
   {
     key: "Category",
@@ -146,45 +145,37 @@ const App = ({ children, userType }) => {
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
-        width={250}
-        style={{ backgroundColor: '#543310', }}
+        width={200}
+        style={{ backgroundColor: "#543310", overflow: "hidden", position: "fixed", height: "100vh", left: 0 }}
       >
-        {!collapsed && (
-          <div style={{ textAlign: "center" }}>
-            <img src={imageSrc} alt="Logo" style={{ width: "80%", margin: "20px 0" }} />
-          </div>
-        )}
+        <div style={{ textAlign: "center", padding: "20px 0" }}>
+          <img src={imageSrc} alt="Logo" style={{ width: "80%" }} />
+        </div>
         <Menu
           theme="light"
-          color="#DAC0A3"
           defaultSelectedKeys={["dashboard"]}
           mode="inline"
           items={userType === "admin" ? adminUserItems : adminUserItems}
           onClick={handleMenuClick}
-          style={{ position: "sticky", marginTop: "10px",backgroundColor:"#DAC0A3"}}
-          
+          style={{ backgroundColor: "#DAC0A3" }}
         />
       </Sider>
-      <Layout>
+
+      <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
         <Header
           style={{
-            position: "sticky",
+            position: "fixed",
             top: 0,
-            zIndex: 1,
-            width: "100%",
-            height: "19%",
+            left: collapsed ? 80 : 200,
+            width: `calc(100% - ${collapsed ? 80 : 200}px)`,
+            height: "64px",
             backgroundColor: "#DAC0A3",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            zIndex: 1,
           }}
         >
-          <div className="demo-logo" />
-          {collapsed && (
-          <div style={{ textAlign: "center" }}>
-            <img src={imageSrc} alt="Logo" style={{ width: "130%", margin: "80px 0" }} />
-          </div>
-        )}
           <div
             style={{
               flex: 1,
@@ -198,7 +189,7 @@ const App = ({ children, userType }) => {
                 key={item.key}
                 type="text"
                 icon={item.icon}
-                style={{ color: "Black",fontSize:"20px" }}
+                style={{ color: "Black", fontSize: "20px" }}
                 onClick={() => handleHeaderClick(item.key)}
               >
                 {item.text}
@@ -206,15 +197,15 @@ const App = ({ children, userType }) => {
             ))}
           </div>
         </Header>
-        <Content style={{ margin: "0 20px" }}>
+
+        <Content style={{ marginTop: 64, padding: 24  }}>
           <div
             style={{
-              padding: 24,
+              padding: 0,
               minHeight: 360,
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: borderRadiusLG,
-              
             }}
           >
             {isBackTopVisible && (
@@ -225,6 +216,7 @@ const App = ({ children, userType }) => {
             {children}
           </div>
         </Content>
+
         <Footer style={{ textAlign: "center" }}></Footer>
       </Layout>
     </Layout>

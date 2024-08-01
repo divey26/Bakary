@@ -1,8 +1,8 @@
 import React from 'react';
 import { Layout} from "antd";
-import LayoutNew from '../Layout';
+import LayoutNew from '../../Layout';
 
-const About = () => {
+const Login = () => {
   return (
     <div className="about">
 
@@ -10,7 +10,7 @@ const About = () => {
    <LayoutNew>
    <Layout>
 
-    This is About Us Page
+
 
 </Layout>
    </LayoutNew>
@@ -19,4 +19,4 @@ const About = () => {
   );
 }
 
-export default About;
+export default Login;
