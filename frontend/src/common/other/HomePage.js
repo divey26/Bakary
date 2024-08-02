@@ -3,6 +3,7 @@ import LayoutNew from '../../Layout';
 import styled from 'styled-components';
 import React from 'react';
 import ReactPlayer from 'react-player';
+import { useNavigate } from 'react-router-dom';
 import videoSrc from '../../video.mp4';
 
 // Import images from the specified directory
@@ -11,6 +12,8 @@ import backgroundImage from '../../p1.jpg'; // Replace this with the actual back
 const { Meta } = AntCard;
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <LayoutNew>
       <Layout>
@@ -29,14 +32,17 @@ const HomePage = () => {
               <StyledCard
                 hoverable
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp12749476.jpg" />}
+                onClick={() => navigate('/bread')}
               >
-                <Meta title="Wheat Bread" description="www.instagram.com" />
+                <Meta title="Bread" description="www.instagram.com" />
               </StyledCard>
             </Col>
             <Col xs={24} sm={12} md={8}>
               <StyledCard
                 hoverable
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp2378609.jpg" />}
+                onClick={() => navigate('/croissants')}
+
               >
                 <Meta title="Croissants" description="www.instagram.com" />
               </StyledCard>
@@ -45,6 +51,8 @@ const HomePage = () => {
               <StyledCard
                 hoverable
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp3055487.jpg" />}
+                onClick={() => navigate('/cookies')}
+
               >
                 <Meta title="Cookies" description="www.instagram.com" />
               </StyledCard>
@@ -53,6 +61,8 @@ const HomePage = () => {
               <StyledCard
                 hoverable
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp12766510.jpg" />}
+                onClick={() => navigate('/buns')}
+
               >
                 <Meta title="Buns" description="www.instagram.com" />
               </StyledCard>
@@ -61,6 +71,8 @@ const HomePage = () => {
               <StyledCard
                 hoverable
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp2053450.jpg" />}
+                onClick={() => navigate('/sandwiches')}
+
               >
                 <Meta title="Sandwiches" description="www.instagram.com" />
               </StyledCard>
@@ -69,7 +81,9 @@ const HomePage = () => {
               <StyledCard
                 hoverable
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp2954058.jpg" />}
-              >
+                onClick={() => navigate('/cakes')}
+
+             >
                 <Meta title="Cakes" description="www.instagram.com" />
               </StyledCard>
             </Col>

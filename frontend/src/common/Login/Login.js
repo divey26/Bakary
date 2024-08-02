@@ -9,7 +9,7 @@ const Login = () => {
 
    <LayoutNew>
    <Layout>
-
+login page
 
 
 </Layout>

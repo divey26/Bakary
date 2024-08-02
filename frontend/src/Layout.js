@@ -81,8 +81,8 @@ const adminUserItems = [
 ];
 
 const headerIteam = [
-  { key: "1", text: "User", icon: <UserSwitchOutlined /> },
-  { key: "2", text: "LogOut", icon: <LogoutOutlined /> },
+  { key: "1", text: "Sign up", icon: <UserSwitchOutlined /> },
+  { key: "2", text: "Login", icon: <LogoutOutlined /> },
 ];
 
 const App = ({ children, userType }) => {
@@ -90,10 +90,15 @@ const App = ({ children, userType }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const handleHeaderClick = (key) => {
-    if (key === "2") {
+    if (key === "1") {
       localStorage.setItem("authToken", null);
       localStorage.setItem("loggedInUserType", null);
-      navigate("/");
+      navigate("/sign");
+    }
+    else if(key=='2'){
+      localStorage.setItem("authToken", null);
+      localStorage.setItem("loggedInUserType", null);
+      navigate("/login");
     }
   };
 
@@ -117,7 +122,9 @@ const App = ({ children, userType }) => {
     if (item.key === "dashboard") {
       navigate("/dashboard");
     }
-
+    if (item.key === "Category") {
+      navigate("/");
+    }
     if (item.key === "ContactUs") {
       navigate("/contact");
     }
