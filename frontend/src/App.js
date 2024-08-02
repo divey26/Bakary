@@ -41,9 +41,9 @@ function App() {
         <Route
           path="/contact"
           element={
-            isAdminAuthenticated() ? <Contact /> : <Navigate to="/" />
-          }
-        />
+           <Contact />} />
+          
+      
          
          <Route
           path="/bread"

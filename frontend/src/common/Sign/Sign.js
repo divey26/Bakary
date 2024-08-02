@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
+import axios from 'axios'; 
 import LayoutNew from '../../Layout';
 import {
   AutoComplete,
@@ -122,9 +123,14 @@ const tailFormItemLayout = {
 const Sign = () => {
   const [form] = Form.useForm();
   const [captchaValue, setCaptchaValue] = useState('');
-
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  
+  const onFinish = async (values) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/register', values);
+      console.log('Form data saved:', response.data);
+    } catch (error) {
+      console.error('Error saving form data:', error);
+    }
   };
 
   const prefixSelector = (
