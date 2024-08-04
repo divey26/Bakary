@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React,{ useState } from 'react';
 import { Layout } from 'antd';
 import axios from 'axios'; 
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
 import LayoutNew from '../../Layout';
 import {
   AutoComplete,
   Button,
+  message,
   Cascader,
   Checkbox,
   Col,
@@ -123,15 +126,25 @@ const tailFormItemLayout = {
 const Sign = () => {
   const [form] = Form.useForm();
   const [captchaValue, setCaptchaValue] = useState('');
-  
+  const navigate = useNavigate(); // Initialize navigate
+
   const onFinish = async (values) => {
+    // Exclude 'confirm' from the values object
+    const { confirm, ...formData } = values;
+  
     try {
-      const response = await axios.post('http://localhost:5000/api/register', values);
+      // Log the entered details
+      console.log('Entered details:', formData);
+  
+      const response = await axios.post('http://localhost:5000/api/register', formData);
       console.log('Form data saved:', response.data);
+      navigate('/login');
     } catch (error) {
-      console.error('Error saving form data:', error);
+      console.error('Error saving form data:', error.response ? error.response.data : error.message);
+      message.error('Registration failed. Please try again.');
     }
   };
+  
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -232,6 +245,7 @@ const Sign = () => {
               <Input />
             </Form.Item>
 
+            
             <Form.Item
               name="phone"
               label="Phone Number"

@@ -27,7 +27,7 @@ function App() {
       <Router>
         <Routes>
         <Route
-           path="/" 
+           path="/home" 
            element={
           isAdminAuthenticated() ? <HomePage /> : <Navigate to="/" />
         }
@@ -38,10 +38,7 @@ function App() {
             isAdminAuthenticated() ? <About /> : <Navigate to="/" />
           }
         />
-        <Route
-          path="/contact"
-          element={
-           <Contact />} />
+        
           
       
          
@@ -58,7 +55,7 @@ function App() {
         <Route path='/cakes' element={<Cakes/>}/>
 
         <Route path='/login' element={<Login/>}/>
-        <Route path='/sign' element={<Sign/>}/>
+        <Route path='/' element={<Sign/>}/>
 
 
        </Routes>
