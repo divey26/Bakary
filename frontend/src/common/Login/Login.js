@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -24,33 +24,65 @@ const Login = () => {
   };
 
   return (
-    <Form
-      form={form}
-      name="login"
-      onFinish={onFinish}
-      style={{ maxWidth: 300, margin: '0 auto', paddingTop: '100px' }}
-    >
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[{ type: 'email', message: 'The input is not valid E-mail!' }, { required: true, message: 'Please input your E-mail!' }]}
+    <div style={styles.container}>
+      <Form
+        form={form}
+        name="login"
+        onFinish={onFinish}
+        style={styles.form}
+        scrollToFirstError
       >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            { type: 'email', message: 'The input is not valid E-mail!' },
+            { required: true, message: 'Please input your E-mail!' },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-        <Input.Password />
-      </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+          hasFeedback
+        >
+          <Input.Password />
+        </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">Login</Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">Login</Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
+};
+
+// Inline styles for centering and responsiveness
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundColor: '#f0f2f5', // Optional background color
+  },
+  form: {
+    maxWidth: '400px',
+    width: '100%',
+    padding: '20px',
+    backgroundColor: '#fff', // Optional form background color
+    borderRadius: '8px', // Optional rounded corners
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', // Optional shadow effect
+  },
+  // Responsive design for smaller screens
+  '@media (max-width: 768px)': {
+    form: {
+      padding: '15px',
+    },
+  },
 };
 
 export default Login;
