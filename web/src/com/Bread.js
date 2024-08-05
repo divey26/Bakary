@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Layout, Space, Typography, Form, message, Button, Modal } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Layout, Space, Typography, Form, message, Button, Modal, Table } from "antd";
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
 import { StockOutlined } from '@ant-design/icons';
@@ -12,6 +12,7 @@ const About = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [isAddItemModalVisible, setIsAddItemModalVisible] = useState(false);
+  const [breads, setBreads] = useState([]);
 
   const handleCancel = () => {
     setIsAddItemModalVisible(false);
@@ -24,12 +25,44 @@ const About = () => {
       console.log('Entered details:', formData);
       const response = await axios.post('http://localhost:5000/api/bread', formData);
       console.log('Form data saved:', response.data);
-      navigate('/suc');
+      fetchBreads(); // Refresh the list of breads after adding new item
+      setIsAddItemModalVisible(false);
     } catch (error) {
       console.error('Error saving form data:', error.response ? error.response.data : error.message);
       message.error('Registration failed. Please try again.');
     }
   };
+
+  const fetchBreads = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/breads');
+      setBreads(response.data);
+    } catch (error) {
+      console.error('Error fetching breads:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchBreads(); // Fetch the list of breads when the component mounts
+  }, []);
+
+  const columns = [
+    {
+      title: 'Bread Name',
+      dataIndex: 'breadname',
+      key: 'breadname',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+    },
+  ];
 
   return (
     <div className="about">
@@ -51,13 +84,15 @@ const About = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "black" }}
               >
-                Department arettyuiy
+                Bread
               </Title>
             </Space>
             <Button type="primary" onClick={() => setIsAddItemModalVisible(true)}>
-              Add Department
+              Add Bread
             </Button>
           </Space>
+
+          <Table dataSource={breads} columns={columns} rowKey="_id" style={{ marginTop: '20px' }} />
 
           <Modal
             open={isAddItemModalVisible}
@@ -68,7 +103,6 @@ const About = () => {
                 .validateFields()
                 .then((values) => {
                   onFinish(values);
-                  setIsAddItemModalVisible(false);
                 })
                 .catch((errorInfo) => {
                   console.log("Validation Failed:", errorInfo);

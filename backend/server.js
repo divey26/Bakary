@@ -148,6 +148,7 @@ app.post('/api/login', async (req, res) => {
 
 
 
+
 //Bread section
 /////////////////////////////////////////////////////////////////
 
@@ -181,6 +182,17 @@ app.post('/api/bread', async (req, res) => {
     res.status(500).json({ error: 'Error creating bread' });
   }
 });
+
+// Fetch all bread items
+app.get('/api/breads', async (req, res) => {
+  try {
+    const breads = await Bread.find();
+    res.status(200).json(breads);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching breads' });
+  }
+});
+
 
 
 

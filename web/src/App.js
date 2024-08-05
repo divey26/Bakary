@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Bread from './com/Bread'
 import Suc from './com/suc'
-
+import Summa from'./com/summa'
 
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Bread/>} />
           <Route path="/suc" element={<Suc/>} />
+          <Route path='/summa' element={<Summa/>}/>
 
         </Routes>
       </Router>
