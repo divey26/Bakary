@@ -54,8 +54,8 @@ function App() {
         <Route path='/sandwiches' element={<Sandwich/>}/>
         <Route path='/cakes' element={<Cakes/>}/>
 
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/' element={<Sign/>}/>
+        <Route path='/' element={<Login/>}/>
+        <Route path='/sign' element={<Sign/>}/>
 
 
        </Routes>

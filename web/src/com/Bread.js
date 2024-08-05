@@ -1,29 +1,35 @@
-import React from 'react';
-import { Layout, Space, Typography, Form, Input, message, Button } from "antd";
+import React, { useState } from 'react';
+import { Layout, Space, Typography, Form, message, Button, Modal } from "antd";
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
 import { StockOutlined } from '@ant-design/icons';
 import LayoutNew from '../Layout';
+import ItemForm from './AddEditItems';
 
 const { Title } = Typography;
 
 const About = () => {
-    const [form] = Form.useForm();
-    const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [isAddItemModalVisible, setIsAddItemModalVisible] = useState(false);
 
-    const onFinish = async (values) => {
-        const { confirm, ...formData } = values;
-      
-        try {
-          console.log('Entered details:', formData);
-          const response = await axios.post('http://localhost:5000/api/bread', formData);
-          console.log('Form data saved:', response.data);
-          navigate('/suc');
-        } catch (error) {
-          console.error('Error saving form data:', error.response ? error.response.data : error.message);
-          message.error('Registration failed. Please try again.');
-        }
-      };
+  const handleCancel = () => {
+    setIsAddItemModalVisible(false);
+  };
+
+  const onFinish = async (values) => {
+    const { confirm, ...formData } = values;
+    
+    try {
+      console.log('Entered details:', formData);
+      const response = await axios.post('http://localhost:5000/api/bread', formData);
+      console.log('Form data saved:', response.data);
+      navigate('/suc');
+    } catch (error) {
+      console.error('Error saving form data:', error.response ? error.response.data : error.message);
+      message.error('Registration failed. Please try again.');
+    }
+  };
 
   return (
     <div className="about">
@@ -48,51 +54,33 @@ const About = () => {
                 Department arettyuiy
               </Title>
             </Space>
+            <Button type="primary" onClick={() => setIsAddItemModalVisible(true)}>
+              Add Department
+            </Button>
           </Space>
 
-          <div style={{ padding: '24px' }}>
-            <Form
-              form={form}
-              name="register"
-              onFinish={onFinish}
-              style={{ maxWidth: 600 }}
-              scrollToFirstError
-            >
-              <Form.Item
-                name="breadname"
-                label="Name"
-                rules={[{ required: true, message: 'Please input the bread name!', whitespace: true }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                name="price"
-                label="Price"
-                rules={[{ required: true, message: 'Please input the price!', whitespace: true }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                name="description"
-                label="Description"
-                rules={[{ required: true, message: 'Please input the description!', whitespace: true }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Register
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
+          <Modal
+            open={isAddItemModalVisible}
+            cancelText="Cancel"
+            onCancel={handleCancel}
+            onOk={() => {
+              form
+                .validateFields()
+                .then((values) => {
+                  onFinish(values);
+                  setIsAddItemModalVisible(false);
+                })
+                .catch((errorInfo) => {
+                  console.log("Validation Failed:", errorInfo);
+                });
+            }}
+          >
+            <ItemForm form={form} onFinish={onFinish} />
+          </Modal>
         </Layout>
       </LayoutNew>
     </div>
   );
-}
+};
 
 export default About;
