@@ -1,21 +1,12 @@
 import React from 'react';
-import { Layout, Typography,
-  Form,
-  Input,
-  Space,
-  Button,
-  Modal,
-  message,} from "antd";
+import { Layout,Space,Typography} from "antd";
 import LayoutNew from '../Layout';
-import {
-  PlusOutlined,
-  StockOutlined,
 
-} from "@ant-design/icons";
-
+import { StockOutlined } from '@ant-design/icons';
 const { Title } = Typography;
-const { Content } = Layout;
-const Bread = () => {
+
+
+const About = () => {
   return (
     <div className="about">
 
@@ -23,11 +14,10 @@ const Bread = () => {
    <LayoutNew>
    <Layout>
 
-      <Content style={{ padding: "24px" }}>
-          <Space
+   <Space
             style={{
-              background: "#543310",
-              color: "white",
+              background: "#65451F",
+              color: "black",
               padding: "12px",
               borderRadius: "8px",
               justifyContent: "space-between",
@@ -38,13 +28,15 @@ const Bread = () => {
               <StockOutlined style={{ fontSize: "24px", marginRight: "8px" }} />
               <Title
                 level={2}
-                style={{ fontSize: "24px", marginTop: "8px", color: "white" }}
+                style={{ fontSize: "24px", marginTop: "8px", color: "black" }}
               >
-                Bread
+                Department arettyuiy
               </Title>
             </Space>
           </Space>
-        </Content>
+
+    This is About Us Page
+
 </Layout>
    </LayoutNew>
 
@@ -52,4 +44,4 @@ const Bread = () => {
   );
 }
 
-export default Bread;
+export default About;

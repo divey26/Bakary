@@ -5,6 +5,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
 
@@ -22,6 +23,12 @@ mongoose.connect(uri, {
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log('MongoDB connection error:', err));
+
+
+
+  
+//register section
+////////////////////////////////////////////////////////////////////////////////////
 
 // Define a schema for the form data
 const formSchema = new mongoose.Schema({
@@ -54,7 +61,8 @@ const formValidationSchema = Joi.object({
   agreement: Joi.boolean().valid(true).required(),
 });
 
-// Endpoint to handle form submission
+
+// Register endpoint
 app.post('/api/register', async (req, res) => {
   console.log('Received request data:', req.body);
   const { email, password, firstname, lastname, residence, address, phone, prefix, captcha, agreement } = req.body;
@@ -95,6 +103,87 @@ app.post('/api/register', async (req, res) => {
     res.status(500).send({ error: 'Error saving form data' });
   }
 });
+
+
+//Login section 
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Login endpoint
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validate login data
+  const loginSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+  });
+
+  const { error } = loginSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  try {
+    // Check if user exists
+    const user = await FormData.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    // Compare provided password with stored hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Send token as response
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).send({ error: 'Error logging in' });
+  }
+});
+
+
+
+//Bread section
+/////////////////////////////////////////////////////////////////
+
+
+
+// Define a schema for bread
+const breadSchema = new mongoose.Schema({
+  breadname: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
+});
+
+// Create a model from the schema
+const Bread = mongoose.model('Bread', breadSchema);
+
+
+// Create a new bread
+app.post('/api/bread', async (req, res) => {
+  const { breadname, price, description } = req.body;
+
+  try {
+    const newBread = new Bread({
+      breadname,
+      price,
+      description,
+    });
+
+    await newBread.save();
+    res.status(201).json({ message: 'Bread created successfully!', bread: newBread });
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating bread' });
+  }
+});
+
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

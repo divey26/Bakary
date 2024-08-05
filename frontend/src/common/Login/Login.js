@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import imageSrc from "../../logo.png";
+
+
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -25,6 +28,7 @@ const Login = () => {
 
   return (
     <div style={styles.container}>
+      
       <Form
         form={form}
         name="login"
@@ -32,6 +36,9 @@ const Login = () => {
         style={styles.form}
         scrollToFirstError
       >
+         <div style={{ textAlign: "center", padding: "20px 0" }}>
+          <img src={imageSrc} alt="Logo" style={{ width: "80%" }} />
+        </div>
         <Form.Item
           name="email"
           label="E-mail"
@@ -47,9 +54,8 @@ const Login = () => {
           name="password"
           label="Password"
           rules={[{ required: true, message: 'Please input your password!' }]}
-          hasFeedback
         >
-          <Input.Password />
+          <Input />
         </Form.Item>
 
         <Form.Item>
