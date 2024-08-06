@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Space, Typography, Form, message, Button, Modal, Table } from "antd";
 import axios from 'axios'; 
-import { useNavigate } from 'react-router-dom';
 import { StockOutlined } from '@ant-design/icons';
 import LayoutNew from '../Layout';
 import ItemForm from './AddEditItems';
 
 const { Title } = Typography;
 
-const About = () => {
+const BreadManagementPage = () => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
   const [isAddItemModalVisible, setIsAddItemModalVisible] = useState(false);
   const [breads, setBreads] = useState([]);
 
@@ -64,6 +62,10 @@ const About = () => {
     },
   ];
 
+  const tableHeaderStyle = {
+    backgroundColor: '#f0f0f0', // Change to your desired color
+  };
+
   return (
     <div className="about">
       <LayoutNew>
@@ -92,7 +94,17 @@ const About = () => {
             </Button>
           </Space>
 
-          <Table dataSource={breads} columns={columns} rowKey="_id" style={{ marginTop: '20px' }} />
+          <Table
+            dataSource={breads}
+            columns={columns}
+            rowKey="_id"
+            style={{ marginTop: '20px' }}
+            onHeaderRow={() => {
+              return {
+                style: tableHeaderStyle,
+              };
+            }}
+          />
 
           <Modal
             open={isAddItemModalVisible}
@@ -117,4 +129,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default BreadManagementPage;
