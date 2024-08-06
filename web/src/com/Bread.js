@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Space, Typography, Form, message, Button, Modal, Table } from "antd";
+import { Layout, Space, Typography, Form, message, Button, Modal, Table, Image } from "antd";
 import axios from 'axios'; 
 import { StockOutlined } from '@ant-design/icons';
 import LayoutNew from '../Layout';
@@ -59,6 +59,12 @@ const BreadManagementPage = () => {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
+    },
+    {
+      title: 'Image',
+      dataIndex: 'imageURL',
+      key: 'imageURL',
+      render: (text, record) => <Image width={100} src={record.imageURL} />
     },
   ];
 

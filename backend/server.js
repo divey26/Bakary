@@ -24,10 +24,7 @@ mongoose.connect(uri, {
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log('MongoDB connection error:', err));
 
-
-
-  
-//register section
+// Register section
 ////////////////////////////////////////////////////////////////////////////////////
 
 // Define a schema for the form data
@@ -60,7 +57,6 @@ const formValidationSchema = Joi.object({
   captcha: Joi.string().required(),
   agreement: Joi.boolean().valid(true).required(),
 });
-
 
 // Register endpoint
 app.post('/api/register', async (req, res) => {
@@ -104,9 +100,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-
-//Login section 
-
+// Login section 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Login endpoint
 app.post('/api/login', async (req, res) => {
@@ -146,34 +140,30 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-
-
-
-//Bread section
+// Bread section
 /////////////////////////////////////////////////////////////////
-
-
 
 // Define a schema for bread
 const breadSchema = new mongoose.Schema({
   breadname: { type: String, required: true },
   price: { type: Number, required: true },
   description: { type: String, required: true },
+  imageURL: { type: String, required: true }, // Add imageURL field
 });
 
 // Create a model from the schema
 const Bread = mongoose.model('Bread', breadSchema);
 
-
 // Create a new bread
 app.post('/api/bread', async (req, res) => {
-  const { breadname, price, description } = req.body;
+  const { breadname, price, description, imageURL } = req.body;
 
   try {
     const newBread = new Bread({
       breadname,
       price,
       description,
+      imageURL, // Save imageURL
     });
 
     await newBread.save();
@@ -192,10 +182,6 @@ app.get('/api/breads', async (req, res) => {
     res.status(500).json({ error: 'Error fetching breads' });
   }
 });
-
-
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
