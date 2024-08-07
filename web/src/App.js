@@ -5,6 +5,7 @@ import Suc from './com/suc'
 import Summa from'./com/summa'
 
 
+
 function App() {
   return (
     <div className="App">
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Bread/>} />
           <Route path="/suc" element={<Suc/>} />
           <Route path='/summa' element={<Summa/>}/>
+         
 
         </Routes>
       </Router>

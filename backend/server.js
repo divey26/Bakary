@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -156,19 +157,18 @@ const Bread = mongoose.model('Bread', breadSchema);
 
 // Create a new bread
 app.post('/api/bread', async (req, res) => {
-  const { breadname, price, description, imageURL } = req.body;
-
   try {
-    const newBread = new Bread({
-      breadname,
-      price,
-      description,
-      imageURL, // Save imageURL
-    });
+    const { breadname, price, description, imageURL } = req.body;
+    // Validate input
+    if (!breadname || !price || !description) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
+    const newBread = new Bread({ breadname, price, description, imageURL });
     await newBread.save();
-    res.status(201).json({ message: 'Bread created successfully!', bread: newBread });
+    res.status(201).json(newBread);
   } catch (error) {
+    console.error('Error creating bread:', error);
     res.status(500).json({ error: 'Error creating bread' });
   }
 });

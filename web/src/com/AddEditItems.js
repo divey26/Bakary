@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Input, Button, Upload, message } from 'antd';
-import { storage, auth } from '../common/firebaseConfig'; // Import from your firebaseConfig file
+import { storage, auth } from '../common/firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-const ItemForm = ({ form, onFinish }) => {
+const ItemForm = ({ form, onFinish = () => {} }) => {
   const [file, setFile] = useState(null);
 
-  const handleFileChange = ({ file }) => {
-    setFile(file.originFileObj);
+  const handleFileChange = ({ fileList }) => {
+    if (fileList.length > 0) {
+      setFile(fileList[0].originFileObj);
+    } else {
+      message.error("Failed to select file.");
+    }
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (file) => {
     if (!file) {
       message.error("No file selected for upload.");
       return null;
     }
 
     try {
-      // You need to have user authentication already set up in your app
-      const userCredential = await signInWithEmailAndPassword(auth, "divensignature@gmail.com", "1234567890");
+      // Sign in the user (replace with actual credentials)
+      const userCredential = await signInWithEmailAndPassword(auth, "divensignature@gmail.com", "12345678");
       const user = userCredential.user;
 
       const storageRef = ref(storage, `images/${file.name}`);
@@ -28,16 +32,23 @@ const ItemForm = ({ form, onFinish }) => {
       return new Promise((resolve, reject) => {
         uploadTask.on('state_changed',
           (snapshot) => {
-            // Handle progress, pause, and resume states here
+            // Handle progress
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(`Upload is ${progress}% done`);
           },
           (error) => {
             message.error(`Upload failed: ${error.message}`);
             reject(error);
           },
           async () => {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            message.success("Upload successful!");
-            resolve(downloadURL);
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              message.success("Upload successful!");
+              resolve(downloadURL);
+            } catch (error) {
+              message.error(`Failed to retrieve download URL: ${error.message}`);
+              reject(error);
+            }
           }
         );
       });
@@ -48,9 +59,12 @@ const ItemForm = ({ form, onFinish }) => {
   };
 
   const handleSubmit = async (values) => {
-    const imageURL = await handleUpload();
+    console.log('onFinish type:', typeof onFinish);
+    const imageURL = await handleUpload(file);
     if (imageURL) {
       onFinish({ ...values, imageURL });
+    } else {
+      message.error('Image upload failed. Please try again.');
     }
   };
 
@@ -87,7 +101,11 @@ const ItemForm = ({ form, onFinish }) => {
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Upload beforeUpload={() => false} onChange={handleFileChange}>
+          <Upload
+            beforeUpload={() => false}
+            onChange={handleFileChange}
+            fileList={file ? [{ originFileObj: file, uid: '1', name: file.name }] : []}
+          >
             <Button>Select File</Button>
           </Upload>
         </Col>

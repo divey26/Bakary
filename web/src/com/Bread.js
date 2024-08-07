@@ -3,7 +3,7 @@ import { Layout, Space, Typography, Form, message, Button, Modal, Table, Image }
 import axios from 'axios'; 
 import { StockOutlined } from '@ant-design/icons';
 import LayoutNew from '../Layout';
-import ItemForm from './AddEditItems';
+import ItemForm from './AddEditItems'; // Make sure the import path is correct
 
 const { Title } = Typography;
 
@@ -17,17 +17,16 @@ const BreadManagementPage = () => {
   };
 
   const onFinish = async (values) => {
-    const { confirm, ...formData } = values;
-    
     try {
-      console.log('Entered details:', formData);
-      const response = await axios.post('http://localhost:5000/api/bread', formData);
+      console.log('Entered details:', values);
+      const response = await axios.post('http://localhost:5000/api/bread', values);
       console.log('Form data saved:', response.data);
-      fetchBreads(); // Refresh the list of breads after adding new item
+      fetchBreads();
       setIsAddItemModalVisible(false);
+      message.success('Bread item added successfully!');
     } catch (error) {
       console.error('Error saving form data:', error.response ? error.response.data : error.message);
-      message.error('Registration failed. Please try again.');
+      message.error(`Registration failed: ${error.response?.data?.error || 'Please try again.'}`);
     }
   };
 
@@ -41,7 +40,7 @@ const BreadManagementPage = () => {
   };
 
   useEffect(() => {
-    fetchBreads(); // Fetch the list of breads when the component mounts
+    fetchBreads();
   }, []);
 
   const columns = [
@@ -69,7 +68,7 @@ const BreadManagementPage = () => {
   ];
 
   const tableHeaderStyle = {
-    backgroundColor: '#f0f0f0', // Change to your desired color
+    backgroundColor: '#f0f0f0',
   };
 
   return (
