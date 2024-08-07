@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -25,10 +24,19 @@ mongoose.connect(uri, {
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log('MongoDB connection error:', err));
 
-// Register section
-////////////////////////////////////////////////////////////////////////////////////
+// General item schema
+const itemSchema = new mongoose.Schema({
+  itemname: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
+  imageURL: { type: String, required: true },
+  type: { type: String, required: true } // General type field for distinguishing items
+});
 
-// Define a schema for the form data
+// Create models
+const Item = mongoose.model('Item', itemSchema);
+
+// Register section
 const formSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -37,12 +45,10 @@ const formSchema = new mongoose.Schema({
   residence: [String],
   address: String,
   phone: String,
-  prefix: { type: String, required: true }, // Make sure to include this
+  prefix: { type: String, required: true },
   captcha: String,
   agreement: { type: Boolean, required: true },
 });
-
-// Create a model from the schema
 const FormData = mongoose.model('FormData', formSchema);
 
 // Validation schema using Joi
@@ -54,7 +60,7 @@ const formValidationSchema = Joi.object({
   residence: Joi.array().items(Joi.string()).optional(),
   address: Joi.string().optional(),
   phone: Joi.string().optional(),
-  prefix: Joi.string().required(), // Ensure it's included in validation
+  prefix: Joi.string().required(),
   captcha: Joi.string().required(),
   agreement: Joi.boolean().valid(true).required(),
 });
@@ -71,16 +77,13 @@ app.post('/api/register', async (req, res) => {
   }
 
   try {
-    // Check if user already exists
     const existingUser = await FormData.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    // Create new user with hashed password
     const newUser = new FormData({
       email,
       password: hashedPassword,
@@ -89,7 +92,7 @@ app.post('/api/register', async (req, res) => {
       residence,
       address,
       phone,
-      prefix, // Make sure prefix is included
+      prefix,
       captcha,
       agreement,
     });
@@ -101,13 +104,10 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Login section 
-/////////////////////////////////////////////////////////////////////////////////////////////
 // Login endpoint
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
-  // Validate login data
   const loginSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
@@ -119,67 +119,66 @@ app.post('/api/login', async (req, res) => {
   }
 
   try {
-    // Check if user exists
     const user = await FormData.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Compare provided password with stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    // Send token as response
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).send({ error: 'Error logging in' });
   }
 });
 
-// Bread section
-/////////////////////////////////////////////////////////////////
-
-// Define a schema for bread
-const breadSchema = new mongoose.Schema({
-  breadname: { type: String, required: true },
-  price: { type: Number, required: true },
-  description: { type: String, required: true },
-  imageURL: { type: String, required: true }, // Add imageURL field
-});
-
-// Create a model from the schema
-const Bread = mongoose.model('Bread', breadSchema);
-
-// Create a new bread
-app.post('/api/bread', async (req, res) => {
+// Item section
+app.post('/api/items', async (req, res) => {
   try {
-    const { breadname, price, description, imageURL } = req.body;
-    // Validate input
-    if (!breadname || !price || !description) {
+    const { itemname, price, description, imageURL, type } = req.body;
+
+    if (!itemname || !price || !description || !type) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const newBread = new Bread({ breadname, price, description, imageURL });
-    await newBread.save();
-    res.status(201).json(newBread);
+    let ItemModel;
+    if (type === 'bread') {
+      ItemModel = mongoose.model('Bread', itemSchema); // Use bread schema
+    } else {
+      ItemModel = mongoose.model('Cake', itemSchema); // Use cake schema
+    }
+
+    const newItem = new ItemModel({ itemname, price, description, imageURL, type });
+    await newItem.save();
+    res.status(201).json(newItem);
   } catch (error) {
-    console.error('Error creating bread:', error);
-    res.status(500).json({ error: 'Error creating bread' });
+    console.error('Error creating item:', error);
+    res.status(500).json({ error: 'Error creating item' });
   }
 });
 
-// Fetch all bread items
-app.get('/api/breads', async (req, res) => {
+// Fetch all items
+app.get('/api/items', async (req, res) => {
   try {
-    const breads = await Bread.find();
-    res.status(200).json(breads);
+    const { type } = req.query;
+    let ItemModel;
+
+    if (type === 'bread') {
+      ItemModel = mongoose.model('Bread', itemSchema); // Use bread schema
+    } else if (type === 'cake') {
+      ItemModel = mongoose.model('Cake', itemSchema); // Use cake schema
+    } else {
+      return res.status(400).json({ error: 'Invalid item type' });
+    }
+
+    const items = await ItemModel.find();
+    res.status(200).json(items);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching breads' });
+    res.status(500).json({ error: 'Error fetching items' });
   }
 });
 

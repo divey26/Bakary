@@ -1,14 +1,13 @@
 import { Layout, Row, Card as AntCard, Col } from 'antd';
-import LayoutNew from '../../Layout';
+import LayoutNew from '../Layout';
 import styled from 'styled-components';
 import React from 'react';
 import ReactPlayer from 'react-player';
 import { useNavigate } from 'react-router-dom';
-import videoSrc from '../../video.mp4';
+import videoSrc from './../video.mp4';
 
 // Import images from the specified directory
-import backgroundImage from '../../p1.jpg'; // Replace this with the actual background image path
-
+import backgroundImage from "./../p1.jpg"
 const { Meta } = AntCard;
 
 const HomePage = () => {

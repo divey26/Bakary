@@ -1,16 +1,16 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import About from "../src/common/other/About"
-import Contact from "./common/other/Contact" 
-import HomePage from './common/other/HomePage';
-import Login from "./common/Login/Login" 
-import Sign from "./common/Sign/Sign" 
+import About from "./common/About"
+import Contact from "./common/Contact" 
+import HomePage from './common/HomePage';
+import Login from "./common/Login" 
+import Sign from "./common/Sign" 
 
-import Bread from './Category/Bread';
+import Bread from './Category/Bread/Bread';
 import Croisant from './Category/Croisant';
 import Cook from './Category/Cookies';
-import Buns from './Category/Buns';
+import Buns from './Category/Buns/Bun';
 import Sandwich from './Category/Sandwich';
 import Cakes from './Category/Cakes';
 

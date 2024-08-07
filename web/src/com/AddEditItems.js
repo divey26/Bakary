@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { Form, Row, Col, Input, Button, Upload, message } from 'antd';
+import { Form, Row, Col, Input, Button, Upload, message, Select } from 'antd';
 import { storage, auth } from '../common/firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
+
+const { Option } = Select;
+
 const ItemForm = ({ form, onFinish = () => {} }) => {
   const [file, setFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = ({ fileList }) => {
     if (fileList.length > 0) {
       setFile(fileList[0].originFileObj);
     } else {
-      message.error("Failed to select file.");
+      setFile(null);
     }
   };
 
@@ -22,7 +26,7 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
     }
 
     try {
-      // Sign in the user (replace with actual credentials)
+      setIsUploading(true);
       const userCredential = await signInWithEmailAndPassword(auth, "divensignature@gmail.com", "12345678");
       const user = userCredential.user;
 
@@ -32,21 +36,23 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
       return new Promise((resolve, reject) => {
         uploadTask.on('state_changed',
           (snapshot) => {
-            // Handle progress
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log(`Upload is ${progress}% done`);
           },
           (error) => {
             message.error(`Upload failed: ${error.message}`);
+            setIsUploading(false);
             reject(error);
           },
           async () => {
             try {
               const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
               message.success("Upload successful!");
+              setIsUploading(false);
               resolve(downloadURL);
             } catch (error) {
               message.error(`Failed to retrieve download URL: ${error.message}`);
+              setIsUploading(false);
               reject(error);
             }
           }
@@ -54,12 +60,12 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
       });
     } catch (error) {
       message.error(`Authentication failed: ${error.message}`);
+      setIsUploading(false);
       return null;
     }
   };
 
   const handleSubmit = async (values) => {
-    console.log('onFinish type:', typeof onFinish);
     const imageURL = await handleUpload(file);
     if (imageURL) {
       onFinish({ ...values, imageURL });
@@ -67,6 +73,7 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
       message.error('Image upload failed. Please try again.');
     }
   };
+  
 
   return (
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -75,7 +82,7 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
           <Form.Item
             name="breadname"
             label="Name"
-            rules={[{ required: true, message: 'Please input the bread name!', whitespace: true }]}
+            rules={[{ required: true, message: 'Please input the item name!', whitespace: true }]}
           >
             <Input />
           </Form.Item>
@@ -84,9 +91,9 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
           <Form.Item
             name="price"
             label="Price"
-            rules={[{ required: true, message: 'Please input the price!', whitespace: true }]}
+            rules={[{ required: true, message: 'Please input the price!' }]}
           >
-            <Input />
+            <Input type="number" />
           </Form.Item>
         </Col>
         <Col span={8}>
@@ -96,6 +103,21 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
             rules={[{ required: true, message: 'Please input the description!', whitespace: true }]}
           >
             <Input />
+          </Form.Item>
+        </Col>
+      </Row>
+      
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Form.Item
+            name="type"
+            label="Type"
+            rules={[{ required: true, message: 'Please select the item type!' }]}
+          >
+            <Select placeholder="Select item type">
+              <Option value="bread">Bread</Option>
+              <Option value="cake">Cake</Option>
+            </Select>
           </Form.Item>
         </Col>
       </Row>
@@ -112,7 +134,7 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
       </Row>
       <Row>
         <Col span={8}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isUploading}>
             Submit
           </Button>
         </Col>

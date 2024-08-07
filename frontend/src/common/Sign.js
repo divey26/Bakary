@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-import LayoutNew from '../../Layout';
+import LayoutNew from '../Layout';
 import {
   AutoComplete,
   Button,
@@ -16,7 +16,7 @@ import {
   Row,
   Select,
 } from 'antd';
-import common from '../../design.css'
+//import common from './../design.css'
 
 const { Option } = Select;
 

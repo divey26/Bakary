@@ -8,17 +8,17 @@ import { Layout, Typography,
   Button,
   Modal,
   message,} from "antd";
-import LayoutNew from '../Layout';
+import LayoutNew from '../../Layout';
 import {
   PlusOutlined,
   StockOutlined,
 
 } from "@ant-design/icons";
-import backgroundImage from '../p1.jpg'; // Replace this with the actual background image path
+import BunList from './BunList';
 
 const { Title } = Typography;
 const { Content } = Layout;
-const Bread = () => {
+const Bun = () => {
   return (
     <div className="about">
    <LayoutNew>
@@ -43,31 +43,20 @@ const Bread = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "white" }}
               >
-                Bread
+                Buns
               </Title>
             </Space>
           </Space>
         </Content>
           </ContentWrapper>
-    
-
+          <BunList />
 </Layout>
    </LayoutNew>
 
       </div>
   );
 }
-const BackgroundContainer = styled.div`
-  background-image: url(${backgroundImage});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+
 
 const ContentWrapper = styled.div`
   background-color: rgba(214, 218, 200, 0.70); /* RGBA color with alpha for transparency */
@@ -78,4 +67,4 @@ const ContentWrapper = styled.div`
   width:100%; /* Ensure this is not too wide for mobile */
 `;
 
-export default Bread;
+export default Bun;

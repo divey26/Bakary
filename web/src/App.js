@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Bread from './com/Bread'
-import Suc from './com/suc'
-import Summa from'./com/summa'
+import Cake from'./com/cake'
+import Bun from './com/Bun'
 
 
 
@@ -11,9 +11,10 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<Bread/>} />
-          <Route path="/suc" element={<Suc/>} />
-          <Route path='/summa' element={<Summa/>}/>
+        <Route path="/" element={<Bread/>} />
+        <Route path="/bun" element={<Bun/>} />
+        <Route path="/cake" element={<Cake/>} />
+
          
 
         </Routes>

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import imageSrc from "../../logo.png";
+import imageSrc from "./../logo.png";
 
 
 
