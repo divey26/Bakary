@@ -10,7 +10,7 @@ const { Title } = Typography;
 const CakeManagementPage = () => {
   const [form] = Form.useForm();
   const [isAddItemModalVisible, setIsAddItemModalVisible] = useState(false);
-  const [cakes, setCakes] = useState([]);
+  const [items, setItems] = useState([]);
 
   const handleCancel = () => {
     setIsAddItemModalVisible(false);
@@ -19,34 +19,33 @@ const CakeManagementPage = () => {
   const onFinish = async (values) => {
     try {
       console.log('Entered details:', values);
-      const response = await axios.post('http://localhost:5000/api/cake', values);
+      const response = await axios.post('http://localhost:5000/api/items', values);
       console.log('Form data saved:', response.data);
-      fetchCakes();
+      fetchItems();
       setIsAddItemModalVisible(false);
-      message.success('Cake item added successfully!');
+      message.success('Bread item added successfully!');
     } catch (error) {
       console.error('Error saving form data:', error.response ? error.response.data : error.message);
-      message.error(`Failed to save cake item: ${error.response?.data?.error || 'Please try again.'}`);
+      message.error(`Registration failed: ${error.response?.data?.error || 'Please try again.'}`);
     }
   };
-  
 
-  const fetchCakes = async () => {
+  const fetchItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/cakes');
-      setCakes(response.data);
+      const response = await axios.get('http://localhost:5000/api/items?type=cake');
+      setItems(response.data);
     } catch (error) {
       console.error('Error fetching breads:', error.response ? error.response.data : error.message);
     }
   };
 
   useEffect(() => {
-    fetchCakes();
+    fetchItems();
   }, []);
 
   const columns = [
     {
-      title: 'Item Name',
+      title: 'Bread Name',
       dataIndex: 'itemname',
       key: 'itemname',
     },
@@ -92,7 +91,7 @@ const CakeManagementPage = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "black" }}
               >
-                Cakes
+                CakeManagementPage
               </Title>
             </Space>
             <Button type="primary" onClick={() => setIsAddItemModalVisible(true)}>
@@ -101,7 +100,7 @@ const CakeManagementPage = () => {
           </Space>
 
           <Table
-            dataSource={cakes}
+            dataSource={items}
             columns={columns}
             rowKey="_id"
             style={{ marginTop: '20px' }}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  ShoppingCartOutlined,
   HomeOutlined,
   LogoutOutlined,
   UserSwitchOutlined,
@@ -11,12 +12,11 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Button } from "antd";
-import { FloatButton } from "antd";
+import { FloatButton,Badge } from "antd";
 import { useNavigate } from "react-router-dom";
 import imageSrc from "./logo.png";
 
 const { Header, Content, Footer, Sider } = Layout;
-const loggedInUserType = localStorage.getItem("loggedInUserType");
 
 const adminUserItems = [
   {
@@ -95,7 +95,7 @@ const App = ({ children, userType }) => {
       localStorage.setItem("loggedInUserType", null);
       navigate("/sign");
     }
-    else if(key=='2'){
+    else if(key==='2'){
       localStorage.setItem("authToken", null);
       localStorage.setItem("loggedInUserType", null);
       navigate("/login");
@@ -143,9 +143,13 @@ const App = ({ children, userType }) => {
   };
 
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { borderRadiusLG },
   } = theme.useToken();
 
+
+  const handleNavigateToCart = () => {
+    navigate('/cart');
+  };
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -202,6 +206,15 @@ const App = ({ children, userType }) => {
                 {item.text}
               </Button>
             ))}
+            <div style={{ textAlign: "right" }}>
+          <Button type="default" onClick={handleNavigateToCart}>
+            <Badge
+              count={5}
+            >
+              <ShoppingCartOutlined style={{ fontSize: "20px" }} name="cartButton" />
+            </Badge>
+          </Button>
+        </div>
           </div>
         </Header>
 

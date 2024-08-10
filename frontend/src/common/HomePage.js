@@ -33,8 +33,10 @@ const HomePage = () => {
                 cover={<img alt="example" src="https://wallpapercave.com/w/wp12749476.jpg" />}
                 onClick={() => navigate('/bread')}
               >
-                <Meta title="Bread" description="www.instagram.com" />
-              </StyledCard>
+                 <Meta
+                    title={<span style={{ fontSize: '20px' }}>Breads</span>}
+                 />              
+                 </StyledCard>
             </Col>
             <Col xs={24} sm={12} md={8}>
               <StyledCard
@@ -43,7 +45,9 @@ const HomePage = () => {
                 onClick={() => navigate('/croissants')}
 
               >
-                <Meta title="Croissants" description="www.instagram.com" />
+                 <Meta
+                    title={<span style={{ fontSize: '20px' }}>Croissants</span>}
+                 />
               </StyledCard>
             </Col>
             <Col xs={24} sm={12} md={8}>
@@ -53,7 +57,9 @@ const HomePage = () => {
                 onClick={() => navigate('/cookies')}
 
               >
-                <Meta title="Cookies" description="www.instagram.com" />
+                 <Meta
+                    title={<span style={{ fontSize: '20px' }}>Cookies</span>}
+                 />
               </StyledCard>
             </Col>
             <Col xs={24} sm={12} md={8}>
@@ -63,8 +69,10 @@ const HomePage = () => {
                 onClick={() => navigate('/buns')}
 
               >
-                <Meta title="Buns" description="www.instagram.com" />
-              </StyledCard>
+                 <Meta
+                    title={<span style={{ fontSize: '20px' }}>Buns</span>}
+                 />              
+                 </StyledCard>
             </Col>
             <Col xs={24} sm={12} md={8}>
               <StyledCard
@@ -73,8 +81,10 @@ const HomePage = () => {
                 onClick={() => navigate('/sandwiches')}
 
               >
-                <Meta title="Sandwiches" description="www.instagram.com" />
-              </StyledCard>
+                 <Meta
+                    title={<span style={{ fontSize: '20px' }}>Sandwiches</span>}
+                 />              
+                 </StyledCard>
             </Col>
             <Col xs={24} sm={12} md={8}>
               <StyledCard
@@ -83,8 +93,10 @@ const HomePage = () => {
                 onClick={() => navigate('/cakes')}
 
              >
-                <Meta title="Cakes" description="www.instagram.com" />
-              </StyledCard>
+                 <Meta
+                    title={<span style={{ fontSize: '20px' }}>Cakes</span>}
+                 />              
+                 </StyledCard>
             </Col>
           </StyledRow>
         </ContentSection>
@@ -126,7 +138,7 @@ const ContentWrapper = styled.div`
 `;
 
 const ContentSection = styled.div`
-  background-color: #FFEBD4;
+  background-color: #00000;
   margin-top: 5px;
   padding: 10px;
   width: 100%;
@@ -138,7 +150,9 @@ const VideoContainer = styled.div`
 `;
 
 const StyledCard = styled(AntCard)`
-  background-color: #A0937D; /* Change this color to your desired card background color */
+  background-color: rgba(160, 147, 125, 0.5);
+  padding:10px;
+  
   .ant-card-meta-title {
     color: #000000; /* Change this color to your desired title color */
   }
@@ -147,6 +161,15 @@ const StyledCard = styled(AntCard)`
   }
   .ant-card-cover img {
     border-radius: 5px; /* Adjust this value to curve the edges more or less */
+  }
+      .ant-card-body {
+    transition: none;
+  }
+
+  &:hover {
+    background-color: #A0937D; /* Same as the background color */
+    box-shadow: none;
+    cursor: default;
   }
 `;
 

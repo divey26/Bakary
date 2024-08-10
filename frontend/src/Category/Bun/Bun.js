@@ -1,29 +1,30 @@
 import React from 'react';
-import { Layout, Typography,
-  Form,
-  Input,
+import styled from 'styled-components';
+
+import { 
+  Layout, 
+  Typography,
   Space,
-  Button,
-  Modal,
-  message,} from "antd";
-import LayoutNew from '../Layout';
+} from "antd";
+import LayoutNew from '../../Layout';
 import {
   PlusOutlined,
   StockOutlined,
 
 } from "@ant-design/icons";
+import BunList from './BunList';
 
 const { Title } = Typography;
 const { Content } = Layout;
-
-const Bread = () => {
+const Bun = () => {
   return (
     <div className="about">
-
-
    <LayoutNew>
    <Layout>
-   <Content style={{ padding: "24px" }}>
+  
+  <ContentWrapper>
+            
+      <Content style={{ padding: "24px" }}>
           <Space
             style={{
               background: "#543310",
@@ -40,11 +41,13 @@ const Bread = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "white" }}
               >
-                Cakes
+                Buns
               </Title>
             </Space>
           </Space>
         </Content>
+          </ContentWrapper>
+          <BunList />
 </Layout>
    </LayoutNew>
 
@@ -52,4 +55,14 @@ const Bread = () => {
   );
 }
 
-export default Bread;
+
+const ContentWrapper = styled.div`
+  background-color: rgba(214, 218, 200, 0.70); /* RGBA color with alpha for transparency */
+  padding: 1px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 100%;
+  width:100%; /* Ensure this is not too wide for mobile */
+`;
+
+export default Bun;

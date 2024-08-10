@@ -6,23 +6,23 @@ import { Layout, Typography,
   Button,
   Modal,
   message,} from "antd";
-import LayoutNew from '../Layout';
+import LayoutNew from '../../Layout';
 import {
   PlusOutlined,
   StockOutlined,
 
 } from "@ant-design/icons";
+import SandwihList from './SandwichList'
+
 
 const { Title } = Typography;
 const { Content } = Layout;
-
 const Bread = () => {
   return (
-    <div className="about">
-
-
+  
    <LayoutNew>
    <Layout>
+
    <Content style={{ padding: "24px" }}>
           <Space
             style={{
@@ -40,15 +40,16 @@ const Bread = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "white" }}
               >
-                Croissant
+                Sandwiches
               </Title>
             </Space>
           </Space>
         </Content>
+        <SandwihList/>
 </Layout>
    </LayoutNew>
 
-      </div>
+      
   );
 }
 

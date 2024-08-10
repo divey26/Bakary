@@ -8,12 +8,14 @@ import Login from "./common/Login"
 import Sign from "./common/Sign" 
 
 import Bread from './Category/Bread/Bread';
-import Croisant from './Category/Croisant';
-import Cook from './Category/Cookies';
-import Buns from './Category/Buns/Bun';
-import Sandwich from './Category/Sandwich';
-import Cakes from './Category/Cakes';
+import Croisant from './Category/Croissant/Croissant';
+import Cook from './Category/Cookie/Cookies';
+import Buns from './Category/Bun/Bun';
+import Sandwich from './Category/Sandwich/Sandwich';
+import Cakes from './Category/Cake/Cakes';
 
+import Cart from './common/Cart';
+import { CartProvider } from './common/CartContext';
 
 
 function App() {
@@ -24,8 +26,12 @@ function App() {
   
   return (
     <div className="App">
+        <CartProvider>
+
       <Router>
         <Routes>
+        <Route path="/cart" element={<Cart />} />
+
         <Route
            path="/home" 
            element={
@@ -42,12 +48,7 @@ function App() {
           
       
          
-         <Route
-          path="/bread"
-          element={
-            isAdminAuthenticated() ? <Bread /> : <Navigate to="/" />
-          }
-        />
+        <Route path='/bread' element={<Bread/>}/>
         <Route path='/croissants' element={<Croisant/>}/>
         <Route path='/cookies' element={<Cook/>}/>
         <Route path='/buns' element={<Buns/>}/>
@@ -60,6 +61,8 @@ function App() {
 
        </Routes>
       </Router>
+      </CartProvider>
+
     </div>
   );
 }

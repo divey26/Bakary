@@ -24,60 +24,45 @@ const adminUserItems = [
     icon: <HomeOutlined />,
     label: "Home",
   },
+  
   {
     key: "Category",
-    icon: <HomeOutlined />,
-    label: "Category",
-  },
-  {
-    key: "Complaint",
-    icon: <HomeOutlined />,
-    label: "Complaint",
-  },
-  {
-    key: "FeedBack",
-    icon: <HomeOutlined />,
-    label: "FeedBack",
-  },
-  {
-    key: "My Profile",
-    icon: <HomeOutlined />,
-    label: "My Profile",
-  },
-  {
-    key: "AboutUs",
     icon: <CalendarOutlined />,
-    label: "About Us",
+    label: "Category",
     children: [
       {
-        key: "Branches",
+        key: "Bread",
         icon: <AppstoreAddOutlined />,
-        label: "Our Branches",
+        label: "Bread",
       },
       {
-        key: "About",
+        key: "Cake",
         icon: <CheckCircleOutlined />,
-        label: "Who we are",
+        label: "Cake",
+      },
+      {
+        key: "Bun",
+        icon: <AppstoreAddOutlined />,
+        label: "Bun",
+      },
+      {
+        key: "Croissant",
+        icon: <AppstoreAddOutlined />,
+        label: "Croissant",
+      },
+      {
+        key: "Sandwich",
+        icon: <AppstoreAddOutlined />,
+        label: "Sandwich",
+      },
+      {
+        key: "Cookie",
+        icon: <AppstoreAddOutlined />,
+        label: "Cookie",
       },
     ],
   },
-  {
-    key: "ContactUs",
-    icon: <ApartmentOutlined />,
-    label: "Contact Us",
-    children: [
-      {
-        key: "Customer",
-        icon: <StockOutlined />,
-        label: "As a customer",
-      },
-      {
-        key: "Employee",
-        icon: <SyncOutlined />,
-        label: "As a Employee",
-      },
-    ],
-  },
+  
 ];
 
 const headerIteam = [
@@ -123,22 +108,25 @@ const App = ({ children, userType }) => {
       navigate("/dashboard");
     }
     if (item.key === "Category") {
+      navigate("");
+    }
+    if (item.key === "Bread") {
       navigate("/");
     }
-    if (item.key === "ContactUs") {
-      navigate("/contact");
+    if (item.key === "Cake") {
+      navigate("/cake");
     }
-    if (item.key === "Customer") {
-      navigate("/customerc");
+    if (item.key === "Cookie") {
+      navigate("/cookie");
     }
-    if (item.key === "Employee") {
-      navigate("/employeec");
+    if (item.key === "Sandwich") {
+      navigate("/sandwich");
     }
-    if (item.key === "About") {
-      navigate("/about");
+    if (item.key === "Bun") {
+      navigate("/bun");
     }
-    if (item.key === "Feedback") {
-      navigate("/feed");
+    if (item.key === "Croissant") {
+      navigate("/croissant");
     }
   };
 

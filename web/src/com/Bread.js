@@ -10,7 +10,7 @@ const { Title } = Typography;
 const BreadManagementPage = () => {
   const [form] = Form.useForm();
   const [isAddItemModalVisible, setIsAddItemModalVisible] = useState(false);
-  const [breads, setBreads] = useState([]);
+  const [items, setItems] = useState([]);
 
   const handleCancel = () => {
     setIsAddItemModalVisible(false);
@@ -19,9 +19,9 @@ const BreadManagementPage = () => {
   const onFinish = async (values) => {
     try {
       console.log('Entered details:', values);
-      const response = await axios.post('http://localhost:5000/api/bread', values);
+      const response = await axios.post('http://localhost:5000/api/items', values);
       console.log('Form data saved:', response.data);
-      fetchBreads();
+      fetchItems();
       setIsAddItemModalVisible(false);
       message.success('Bread item added successfully!');
     } catch (error) {
@@ -30,24 +30,24 @@ const BreadManagementPage = () => {
     }
   };
 
-  const fetchBreads = async () => {
+  const fetchItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/breads');
-      setBreads(response.data);
+      const response = await axios.get('http://localhost:5000/api/items?type=bread');
+      setItems(response.data);
     } catch (error) {
       console.error('Error fetching breads:', error.response ? error.response.data : error.message);
     }
   };
 
   useEffect(() => {
-    fetchBreads();
+    fetchItems();
   }, []);
 
   const columns = [
     {
       title: 'Bread Name',
-      dataIndex: 'breadname',
-      key: 'breadname',
+      dataIndex: 'itemname',
+      key: 'itemname',
     },
     {
       title: 'Price',
@@ -100,7 +100,7 @@ const BreadManagementPage = () => {
           </Space>
 
           <Table
-            dataSource={breads}
+            dataSource={items}
             columns={columns}
             rowKey="_id"
             style={{ marginTop: '20px' }}

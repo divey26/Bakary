@@ -4,7 +4,6 @@ import { storage, auth } from '../common/firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-
 const { Option } = Select;
 
 const ItemForm = ({ form, onFinish = () => {} }) => {
@@ -66,21 +65,22 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
   };
 
   const handleSubmit = async (values) => {
+    console.log('Form values before upload:', values);
     const imageURL = await handleUpload(file);
     if (imageURL) {
+      console.log('Image URL:', imageURL);
       onFinish({ ...values, imageURL });
     } else {
       message.error('Image upload failed. Please try again.');
     }
   };
-  
 
   return (
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Row gutter={[16, 16]}>
         <Col span={8}>
           <Form.Item
-            name="breadname"
+            name="itemname"
             label="Name"
             rules={[{ required: true, message: 'Please input the item name!', whitespace: true }]}
           >
@@ -91,9 +91,14 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
           <Form.Item
             name="price"
             label="Price"
-            rules={[{ required: true, message: 'Please input the price!' }]}
+            rules={[{ required: true, message: 'Please input the price!' },
+              {
+                pattern: new RegExp(/^\d+(\.\d{1,2})?$/),
+                message: 'Please enter a valid price (e.g., 10 or 10.99)',
+              },
+            ]}
           >
-            <Input type="number" />
+            <Input type="text"/>
           </Form.Item>
         </Col>
         <Col span={8}>
@@ -117,6 +122,10 @@ const ItemForm = ({ form, onFinish = () => {} }) => {
             <Select placeholder="Select item type">
               <Option value="bread">Bread</Option>
               <Option value="cake">Cake</Option>
+              <Option value="croissant">Croissant</Option>
+              <Option value="bun">Bun</Option>
+              <Option value="sandwich">Sandwich</Option>
+              <Option value="cookie">Cookie</Option>
             </Select>
           </Form.Item>
         </Col>

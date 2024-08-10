@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card as AntCard, Row, Col, Button as AntButton, InputNumber } from 'antd';
+import { Card as AntCard, Row, Col, Button as AntButton,InputNumber} from 'antd';
 import styled from 'styled-components';
 import axios from 'axios';
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
@@ -7,7 +7,7 @@ import { useCart } from '../../common/CartContext';
 
 const { Meta } = AntCard;
 
-const BreadList = () => {
+const CroissantList = () => {
   const [items, setItems] = useState([]);
   const [quantities, setQuantities] = useState({});
   const { addToCart } = useCart();
@@ -15,7 +15,7 @@ const BreadList = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/items?type=bread');
+        const response = await axios.get('http://localhost:5000/api/items?type=croissant');
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching breads:', error);
@@ -49,17 +49,18 @@ const BreadList = () => {
               <Meta
                 title={
                   <TitleWrapper>
-                    <ItemName>{item.itemname}</ItemName>
-                    <ItemPrice>Rs.{item.price}</ItemPrice>
-                  </TitleWrapper>
+                  <ItemName>{item.itemname}</ItemName>
+                  <ItemPrice>Rs.{item.price}</ItemPrice>
+                </TitleWrapper>
                 }
                 description={
                   <DescriptionWrapper>
+                    <div>Price: Rs.{item.price}</div>
                     <div>{item.description}</div>
                   </DescriptionWrapper>
                 }
               />
-              <QuantityWrapper>
+               <QuantityWrapper>
                 <AntButton icon={<MinusOutlined />} onClick={() => handleQuantityChange(item._id, (quantities[item._id] || 1) - 1)} />
                 <InputNumber 
                   min={1} 
@@ -72,11 +73,8 @@ const BreadList = () => {
             </StyledCard>
           </Col>
         ))}
-
       </StyledRow>
     </ContentSection>
-
-  
   );
 };
 
@@ -100,27 +98,8 @@ const StyledCard = styled(AntCard)`
     color: #000000;
     text-align: left;
   }
-     .ant-card-body {
-    transition: none;
-  }
-
-  &:hover {
-    background-color: #A0937D; /* Same as the background color */
-    box-shadow: none;
-    cursor: default;
-  }
 `;
 
-const StyledImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-`;
-
-const StyledRow = styled(Row)`
-  display: flex;
-  flex-wrap: wrap;
-`;
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -133,6 +112,18 @@ const ItemName = styled.span`
 
 const ItemPrice = styled.span`
   font-weight: bold;
+`;
+
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+`;
+
+const StyledRow = styled(Row)`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const DescriptionWrapper = styled.div`
@@ -159,4 +150,4 @@ const StyledButton = styled(AntButton)`
   }
 `;
 
-export default BreadList;
+export default CroissantList;

@@ -27,7 +27,7 @@ mongoose.connect(uri, {
 // General item schema
 const itemSchema = new mongoose.Schema({
   itemname: { type: String, required: true },
-  price: { type: Number, required: true },
+  price: { type: String, required: true },
   description: { type: String, required: true },
   imageURL: { type: String, required: true },
   type: { type: String, required: true } // General type field for distinguishing items
@@ -148,8 +148,24 @@ app.post('/api/items', async (req, res) => {
     let ItemModel;
     if (type === 'bread') {
       ItemModel = mongoose.model('Bread', itemSchema); // Use bread schema
-    } else {
+    } 
+    else if(type==='croissant'){
+      ItemModel = mongoose.model('Croissant', itemSchema); // Use cake schema
+    }
+    else if(type==='cake'){
       ItemModel = mongoose.model('Cake', itemSchema); // Use cake schema
+    }
+    else if(type==='bun'){
+      ItemModel = mongoose.model('Bun', itemSchema); // Use cake schema
+    }
+    else if(type==='sandwich'){
+      ItemModel = mongoose.model('Sandwich', itemSchema); // Use cake schema
+    }
+    else if(type==='cookie'){
+      ItemModel = mongoose.model('Cookie', itemSchema); // Use cake schema
+    }
+    else{
+      return res.status(400).json({ error: 'Invalid item ' });
     }
 
     const newItem = new ItemModel({ itemname, price, description, imageURL, type });
@@ -161,6 +177,7 @@ app.post('/api/items', async (req, res) => {
   }
 });
 
+
 // Fetch all items
 app.get('/api/items', async (req, res) => {
   try {
@@ -169,12 +186,26 @@ app.get('/api/items', async (req, res) => {
 
     if (type === 'bread') {
       ItemModel = mongoose.model('Bread', itemSchema); // Use bread schema
-    } else if (type === 'cake') {
-      ItemModel = mongoose.model('Cake', itemSchema); // Use cake schema
-    } else {
-      return res.status(400).json({ error: 'Invalid item type' });
+    } 
+    else if(type==='croissant'){
+      ItemModel = mongoose.model('Croissant', itemSchema); // Use cake schema
     }
-
+    else if(type==='cake'){
+      ItemModel = mongoose.model('Cake', itemSchema); // Use cake schema
+    }
+    else if(type==='bun'){
+      ItemModel = mongoose.model('Bun', itemSchema); // Use cake schema
+    }
+    else if(type==='sandwich'){
+      ItemModel = mongoose.model('Sandwich', itemSchema); // Use cake schema
+    }
+    else if(type==='cookie'){
+      ItemModel = mongoose.model('Cookie', itemSchema); // Use cake schema
+    }
+    else{
+      return res.status(400).json({ error: 'Invalid item ' });
+    }
+    
     const items = await ItemModel.find();
     res.status(200).json(items);
   } catch (error) {

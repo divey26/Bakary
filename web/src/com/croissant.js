@@ -7,7 +7,7 @@ import ItemForm from './AddEditItems'; // Make sure the import path is correct
 
 const { Title } = Typography;
 
-const BunManagementPage = () => {
+const CroissantManagementPage = () => {
   const [form] = Form.useForm();
   const [isAddItemModalVisible, setIsAddItemModalVisible] = useState(false);
   const [items, setItems] = useState([]);
@@ -32,7 +32,7 @@ const BunManagementPage = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/items?type=bun');
+      const response = await axios.get('http://localhost:5000/api/items?type=croissant');
       setItems(response.data);
     } catch (error) {
       console.error('Error fetching breads:', error.response ? error.response.data : error.message);
@@ -91,11 +91,11 @@ const BunManagementPage = () => {
                 level={2}
                 style={{ fontSize: "24px", marginTop: "8px", color: "black" }}
               >
-                BunManagementPage
+                CroissantManagementPage
               </Title>
             </Space>
             <Button type="primary" onClick={() => setIsAddItemModalVisible(true)}>
-              Add item
+              Add Item
             </Button>
           </Space>
 
@@ -134,4 +134,4 @@ const BunManagementPage = () => {
   );
 };
 
-export default BunManagementPage;
+export default CroissantManagementPage;
